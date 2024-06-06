@@ -45,18 +45,18 @@ class ProductController extends Controller
             "categId"=> "required",
             "brandId"=> "required",
             "prodStock"=> "required",
-            "rateId"=> "required",
-            "image"=> "required",
+            "prodImage"=> "required",
+            "prodDetails"=> "required",
+            "rateId"=> "required"
         ]);
         $product = new Product();
         $product->prod_name = $request->prodName;
         $product->prod_price = $request->prodPrice;
         $product->stock = $request->prodStock;
-        $product->description = 'test';
-        $product->rate = 5;
+        $product->description = $request->prodDetails;
+        $product->rate = $request->rateId;
         $product->categId = $request->categId;
         $product->brandId = $request->brandId;
-        // dd($product);
         if ($request->hasFile('prodImage')) {
             $prodImage = $request->file('prodImage');
             $extention = $prodImage->getClientOriginalExtension();
@@ -64,6 +64,7 @@ class ProductController extends Controller
             $prodImage->move(public_path('prodIamge'), $fileName);
             $product->image = $fileName;
         }
+
         $product->save();
         return redirect("/product")->with("success", "");
 
